@@ -3,9 +3,9 @@ using System.ComponentModel;
 using Neo;
 using Neo.SmartContract.Framework;
 
-namespace Locking_Token_Neo
+namespace FLUNDLocking
 {
-    partial class Locking_Token_Neo
+    partial class FLUNDLocking
     {
         // Check validation of address - token hash, user wallet address
         static bool CheckAddrValid(bool checkZero, params UInt160[] addrs)

@@ -4,9 +4,9 @@ using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
 
-namespace Locking_Token_Neo
+namespace FLUNDLocking
 {
-    partial class Locking_Token_Neo
+    partial class FLUNDLocking
     {
 
         // The contract storage for hash of transaction

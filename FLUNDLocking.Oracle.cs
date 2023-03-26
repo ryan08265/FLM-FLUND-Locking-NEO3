@@ -4,9 +4,9 @@ using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
 using System.ComponentModel;
 
-namespace Locking_Token_Neo
+namespace FLUNDLocking
 {
-    partial class Locking_Token_Neo
+    partial class FLUNDLocking
     {
         static readonly string PreData = "FLUNDPrice";
 

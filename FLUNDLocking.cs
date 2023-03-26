@@ -5,7 +5,7 @@ using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
 using Neo.SmartContract.Framework.Services;
 
-namespace Locking_Token_Neo
+namespace FLUNDLocking
 {
     struct FirstUserRecord // The info of first user
     {
@@ -24,7 +24,7 @@ namespace Locking_Token_Neo
     [ManifestExtra("Email", "")]
     [ManifestExtra("Description", "")]
     [ContractPermission("*", "*")]
-    public partial class Locking_Token_Neo : SmartContract
+    public partial class FLUNDLocking : SmartContract
     {
 
         // FLM Hash
@@ -279,4 +279,4 @@ namespace Locking_Token_Neo
         }
 
     }
-}
+
