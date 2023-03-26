@@ -174,13 +174,13 @@ namespace FLUNDLocking
             BigInteger FLMLockingProfit = FLMWithdrawAmount - record.FLMAmount;
 
             //Refund Profit FLM Amount to second user
-            if(lockingProfitFLMAmount != 0) 
+            if(FLMLockingProfit > 0) 
             {
                 object[] @paramsForSecondUser = new object[]
                 {
                     Runtime.ExecutingScriptHash,
                     lockingRecord.secondAddress,
-                    lockingProfitFLMAmount,
+                    FLMLockingProfit,
                     new byte[0]
                 };
 
@@ -215,6 +215,7 @@ namespace FLUNDLocking
                 ExecutionEngine.Assert(false, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
             }
 
+            TotalFLMSupplyStorage.Reduce(FLMWithdrawAmount);
             FirstUserLockingStorage.Delete(fromAddress);
             SecondUserLockingStorage.Delete(fromAddress);
             EnteredStorage.Delete(tran.Hash);
