@@ -48,8 +48,8 @@ namespace FLUNDLocking
         // private static readonly UInt160 FlamingoSwapPair = default;
 
         // FTokenVault Hash - To get on-chain FLUND price
-        [InitialValue("0x799bbfcbc97b5a425e14089aeb06753cb3190560", Neo.SmartContract.ContractParameterType.Hash160)]
-        private static readonly UInt160 FTokenVault = default;
+        // [InitialValue("0x799bbfcbc97b5a425e14089aeb06753cb3190560", Neo.SmartContract.ContractParameterType.Hash160)]
+        // private static readonly UInt160 FTokenVault = default;
 
         // private static readonly uint startLockingTimeStamp = 1601114400;
 
@@ -66,6 +66,42 @@ namespace FLUNDLocking
             TotalFLMSupplyStorage.Increase(FLMAmount);
         }
                
+        // If no user deposit FUSDT to locking pool, then refund the money to user1
+        public static bool RefundUser(UInt160 fromAddress)
+        {
+            Transaction tran = (Transaction)Runtime.ScriptContainer;
+            //检查是否存在reentered的情况
+            ExecutionEngine.Assert(!EnteredStorage.IsSet(tran.Hash), "Re-entered");
+            EnteredStorage.Set(tran.Hash);
+            if (!Runtime.CheckWitness(fromAddress))
+            {
+                EnteredStorage.Delete(tran.Hash);
+                return false;
+            }
+            FirstUserRecord record = FirstUserLockingStorage.Get(fromAddress);
+            //Refund deposited amount of FLM to first user
+            object[] @params = new object[]
+            {
+                Runtime.ExecutingScriptHash,
+                fromAddress,
+                record.FLMAmount,
+                new byte[0]
+            };
+
+            try
+            {
+                var result = (bool)Contract.Call(FLMHash, "transfer", CallFlags.All, @params);
+                ExecutionEngine.Assert(result, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
+            }
+            catch (Exception)
+            {
+                ExecutionEngine.Assert(false, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
+            }
+            FirstUserLockingStorage.FirstUserLockingStorage(fromAddress);
+            EnteredStorage.Delete(tran.Hash);
+            return result;            
+
+        }
         // When Second User deposits specified amount of FUSDT, convert FLM to FLUND,  contract locking started. 
         public static bool Locking(UInt160 fromAddress, UInt160 secondAddress, BigInteger FUSDTAmount)
         {
