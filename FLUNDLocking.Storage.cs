@@ -127,6 +127,24 @@ namespace FLUNDLocking
         //     }
         // }
 
-        
+        public static class HistoryStackProfitSumStorage
+        {
+            private static readonly byte[] HistoryUintStackProfitSumPrefix = new byte[] { 0x02, 0x01 };
+
+            internal static void Put(UInt160 asset, BigInteger timestamp, BigInteger amount)
+            {
+                StorageMap map = new(Storage.CurrentContext, HistoryUintStackProfitSumPrefix);
+                byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
+                map.Put(key, amount);
+            }
+
+            internal static BigInteger Get(UInt160 asset, BigInteger timestamp)
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, HistoryUintStackProfitSumPrefix);
+                byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
+                return (BigInteger)map.Get(key);
+            }
+        }
+
     }
 }
