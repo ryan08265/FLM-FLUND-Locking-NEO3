@@ -126,7 +126,8 @@ namespace FLUNDLocking
             }
 
             BigInteger currentTimestamp = GetCurrentTimeStamp();
-            SecondUserLockingStorage.Put(fromAddress, secondAddress, currentTimestamp, FLUNDPrice);            
+            TotalFLMSupplyStorage.Reduce(record.FLMAmount);
+            SecondUserLockingStorage.Put(fromAddress, secondAddress, currentTimestamp);            
             
         }
 
@@ -139,7 +140,7 @@ namespace FLUNDLocking
             EnteredStorage.Set(tran.Hash);
 
             BigInteger currentTimestamp = GetCurrentTimestamp();
-            BigInteger FLUNDPrice = GetCurrentFLUNDPrice();
+            // BigInteger FLUNDPrice = GetCurrentFLUNDPrice();
             FirstUserRecord record = FirstUserLockingStorage.Get(fromAddress);
             SecondUserRecord lockingRecord = SecondUserLockingStorage.Get(fromAddress);
 
@@ -148,9 +149,6 @@ namespace FLUNDLocking
                 // EnteredStorage.Delete(tran.Hash);
                 return false;
             }
-
-            //Get the total amount of FLM before convert FLUND to FLM after locking
-            BigInteger totalFLMAmount = GetFLMCurrentTotalAmount();
 
             // Convert FLUND to FLM again.
             object[] @paramsForFLMToFlund = new object[]
@@ -171,9 +169,10 @@ namespace FLUNDLocking
             }
 
             // Calculate the profit amount of FLM after converting FLUND to FLM.
-            BigInteger totalProfitFLMAmount = GetFLMCurrentTotalAmount();
-            BigInteger lockingProfitFLMAmount = totalProfitFLMAmount - totalFLMAmount;
-            lockingProfitFLMAmount = lockingProfitFLMAmount - record.FLMAmount;
+            BigInteger totalFLMAmount = GetFLMCurrentTotalAmount();
+            BigInteger FLMWithdrawAmount = TotalFLMSupplyStorage.Get() - totalFLMAmount;
+            BigInteger FLMLockingProfit = FLMWithdrawAmount - record.FLMAmount;
+
             //Refund Profit FLM Amount to second user
             if(lockingProfitFLMAmount != 0) 
             {
