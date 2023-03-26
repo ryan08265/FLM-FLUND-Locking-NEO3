@@ -146,5 +146,25 @@ namespace FLUNDLocking
             }
         }
 
+        public static class TotalFLMSupplyStorage
+        {
+            internal static void Put(BigInteger amount)
+            {
+                StorageMap balanceMap = new(Storage.CurrentContext, TotalSupplyPrefix);
+                balanceMap.Put(TotalSupplyKey, amount);
+            }
+
+            internal static BigInteger Get()
+            {
+                StorageMap balanceMap = new(Storage.CurrentReadOnlyContext, TotalSupplyPrefix);
+                return (BigInteger)balanceMap.Get(TotalSupplyKey);
+            }
+
+            internal static void Increase(BigInteger amount) => Put(Get() + amount);
+
+            internal static void Reduce(BigInteger amount) => Put(Get() - amount);
+        }
+
+
     }
 }
