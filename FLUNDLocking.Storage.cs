@@ -116,16 +116,16 @@ namespace FLUNDLocking
             }
         }
 
-        // The contract storage for data of FLM Amount
-        public static class FLMAmountStorage
-        {
-            private static readonly byte[] FLMAmountStoragePrefix = new byte[] { 0xb0,0x01};    
-            internal static void Put(BigInteger fromAddress, BigInteger previousFLMAmount, BigInteger profitFLMAmount)
-            {
-                byte[] key = (byte[])fromAddress;
-                StorageMap map = new(Storage.CurrentContext, FLMAmountStoragePrefix);
-            }
-        }
+        // // The contract storage for data of FLM Amount
+        // public static class FLMAmountStorage
+        // {
+        //     private static readonly byte[] FLMAmountStoragePrefix = new byte[] { 0xb0,0x01};    
+        //     internal static void Put(BigInteger fromAddress, BigInteger previousFLMAmount, BigInteger profitFLMAmount)
+        //     {
+        //         byte[] key = (byte[])fromAddress;
+        //         StorageMap map = new(Storage.CurrentContext, FLMAmountStoragePrefix);
+        //     }
+        // }
 
         
     }

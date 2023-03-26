@@ -20,6 +20,7 @@ namespace FLUNDLocking
         public UInt160 secondAddress;
         public BigInteger lockTimeStamp;
     }
+
     [ManifestExtra("Author", "")]
     [ManifestExtra("Email", "")]
     [ManifestExtra("Description", "")]
@@ -75,6 +76,9 @@ namespace FLUNDLocking
             ExecutionEngine.Assert(record.FUSDTAmount >= FUSDTAmount, "OnNep17Payment: Deposit amount is less than required amount");  
             
             //Transfer the FUSDT that second user deposit to first user.
+            // Hey, bro
+            // How can I know received amount of FLM when I invoke the withdraw method of FLUND contract for converting FLUND to FLM?
+            // Please give me solution
             object[] @params = new object[]
             {
                 Runtime.ExecutingScriptHash,
@@ -121,6 +125,8 @@ namespace FLUNDLocking
         }
 
         // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
+
+        // To calculate the increased amount of FLM, we should know the total amount before converting FLUND to FLM.
         public static bool Refund(UInt160 fromAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;
@@ -128,16 +134,18 @@ namespace FLUNDLocking
             EnteredStorage.Set(tran.Hash);
 
             BigInteger currentTimestamp = GetCurrentTimestamp();
-            BigInteger totalFLUNDAmount = GetCurrentTotalAmount();
             BigInteger FLUNDPrice = GetCurrentFLUNDPrice();
             FirstUserRecord record = FirstUserLockingStorage.Get(fromAddress);
             SecondUserRecord lockingRecord = SecondUserLockingStorage.Get(fromAddress);
 
-            if ((currentTimestamp > lockingRecord.lockTimeStamp + record.lockTermLength) || totalFLUNDAmount < record.amount || !(lockingRecord.fromAddress.Equals(fromAddress)))
+            if ((currentTimestamp > lockingRecord.lockTimeStamp + record.lockTermLength) || !(lockingRecord.fromAddress.Equals(fromAddress)))
             {
                 // EnteredStorage.Delete(tran.Hash);
                 return false;
             }
+
+            //Get the total amount of FLM before convert FLUND to FLM after locking
+            BigInteger totalFLMAmount = GetFLMCurrentTotalAmount
 
             // Convert FLUND to FLM again.
             object[] @paramsForFLMToFlund = new object[]
