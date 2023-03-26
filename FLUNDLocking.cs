@@ -76,9 +76,6 @@ namespace FLUNDLocking
             ExecutionEngine.Assert(record.FUSDTAmount >= FUSDTAmount, "OnNep17Payment: Deposit amount is less than required amount");  
             
             //Transfer the FUSDT that second user deposit to first user.
-            // Hey, bro
-            // How can I know received amount of FLM when I invoke the withdraw method of FLUND contract for converting FLUND to FLM?
-            // Please give me solution
             object[] @params = new object[]
             {
                 Runtime.ExecutingScriptHash,
@@ -125,7 +122,6 @@ namespace FLUNDLocking
         }
 
         // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
-
         // To calculate the increased amount of FLM, we should know the total amount before converting FLUND to FLM.
         public static bool Refund(UInt160 fromAddress)
         {
@@ -145,7 +141,7 @@ namespace FLUNDLocking
             }
 
             //Get the total amount of FLM before convert FLUND to FLM after locking
-            BigInteger totalFLMAmount = GetFLMCurrentTotalAmount
+            BigInteger totalFLMAmount = GetFLMCurrentTotalAmount();
 
             // Convert FLUND to FLM again.
             object[] @paramsForFLMToFlund = new object[]
@@ -165,26 +161,29 @@ namespace FLUNDLocking
                 ExecutionEngine.Assert(false, "Refund: Converting FLUND to FLM failed, ".ToByteArray().ToByteString());
             }
 
-            //Refund Profit to second user
-            BigInteger lockingProfitFLMAmount;
-            if(lockingProfit != 0) 
+            // Calculate the profit amount of FLM after converting FLUND to FLM.
+            BigInteger lockingProfitFLMAmount = GetFLMCurrentTotalAmount();
+            lockingProfitFLMAmount = totalProfitFLMAmount - totalFLMAmount;
+
+            //Refund Profit FLM Amount to second user
+            if(lockingProfitFLMAmount != 0) 
             {
                 object[] @paramsForSecondUser = new object[]
                 {
                     Runtime.ExecutingScriptHash,
                     lockingRecord.secondAddress,
-                    lockingProfit,
+                    lockingProfitFLMAmount,
                     new byte[0]
                 };
 
                 try
                 {
-                    var result = (bool)Contract.Call(FUSDTHash, "transfer", CallFlags.All, @params);
-                    ExecutionEngine.Assert(result, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+                    var result = (bool)Contract.Call(FLMHash, "transfer", CallFlags.All, @params);
+                    ExecutionEngine.Assert(result, "Refund: Transferring profit FLM to second user failed, ".ToByteArray().ToByteString());
                 }
                 catch (Exception)
                 {
-                    ExecutionEngine.Assert(false, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+                    ExecutionEngine.Assert(false, "Refund: Transferring profit FLM to second user failed, ".ToByteArray().ToByteString());
                 }
             }
 
@@ -278,7 +277,7 @@ namespace FLUNDLocking
         public static BigInteger GetLockingAmount(UInt160 fromAddress)
         {
             ExecutionEngine.Assert(CheckAddrValid(true, fromAddress), "GetLockingAmount: invald params");
-            return FirstUserRecord.Get(fromAddress).FLUNDAmount;
+            return FirstUserRecord.Get(fromAddress).FLMAmount;
         }
 
         private static BigInteger GetCurrentTimeStamp() 
