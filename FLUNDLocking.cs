@@ -97,7 +97,7 @@ namespace FLUNDLocking
             {
                 ExecutionEngine.Assert(false, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
             }
-            FirstUserLockingStorage.FirstUserLockingStorage(fromAddress);
+            FirstUserLockingStorage.Delete(fromAddress);
             EnteredStorage.Delete(tran.Hash);
             return result;            
 
@@ -164,7 +164,7 @@ namespace FLUNDLocking
             BigInteger currentTimestamp = GetCurrentTimeStamp();
             TotalFLMSupplyStorage.Reduce(record.FLMAmount);
             SecondUserLockingStorage.Put(fromAddress, secondAddress, currentTimestamp);            
-            
+            return true;
         }
 
         // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
