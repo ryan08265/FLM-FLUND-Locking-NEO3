@@ -53,7 +53,7 @@ namespace FLUNDLocking
 
         // private static readonly uint startLockingTimeStamp = 1601114400;
 
-        //First User Deposit FLUND and Sets Locking Period and FUSDT token to receive from User2
+        //User1 Deposit FLM and Sets Locking Period and FUSDT token to receive from User2
         public static void OnNep17Payment(UInt160 fromAddress, BigInteger FLMAmount, BigInteger FUSDTAmount, BigInteger lockTermLength)
         {
             ExecutionEngine.Assert(CheckAddrValid(true, fromAddress), "OnNep17Payment: invald params");
@@ -63,17 +63,26 @@ namespace FLUNDLocking
             ExecutionEngine.Assert(record.fromAddress == UInt160.Zero, "OnNep17Payment: Deposit already finished");
             ExecutionEngine.Assert(lockingRecord.fromAddress == UInt160.Zero, "OnNep17Payment: Locking started already");
             FirstUserLockingStorage.Put(fromAddress, FLMAmount, FUSDTAmount, lockTermLength);            
+            TotalFLMSupplyStorage.Increase(FLMAmount);
         }
                
         // When Second User deposits specified amount of FUSDT, convert FLM to FLUND,  contract locking started. 
         public static bool Locking(UInt160 fromAddress, UInt160 secondAddress, BigInteger FUSDTAmount)
         {
+            Transaction tran = (Transaction)Runtime.ScriptContainer;
+            //检查是否存在reentered的情况
+            ExecutionEngine.Assert(!EnteredStorage.IsSet(tran.Hash), "Re-entered");
+            EnteredStorage.Set(tran.Hash);
+            if (!Runtime.CheckWitness(fromAddress))
+            {
+                EnteredStorage.Delete(tran.Hash);
+                return false;
+            }
             ExecutionEngine.Assert(CheckAddrValid(true, fromAddress, secondAddress), "Locking: invald params");
             FirstUserRecord record = FirstUserLockingStorage.Get(fromAddress);
             SecondUserRecord lockingRecord = SecondUserLockingStorage.Get(fromAddress);
-            ExecutionEngine.Assert(record.fromAddress != UInt160.Zero, "OnNep17Payment: invailid params");
-            ExecutionEngine.Assert(lockingRecord.fromAddress == UInt160.Zero, "OnNep17Payment: Locking started already");     
-            ExecutionEngine.Assert(record.FUSDTAmount >= FUSDTAmount, "OnNep17Payment: Deposit amount is less than required amount");  
+            // ExecutionEngine.Assert(lockingRecord.fromAddress == UInt160.Zero, "OnNep17Payment: Locking started already");     
+            // ExecutionEngine.Assert(record.FUSDTAmount >= FUSDTAmount, "OnNep17Payment: Deposit amount is less than required amount");  
             
             //Transfer the FUSDT that second user deposit to first user.
             object[] @params = new object[]
@@ -118,7 +127,7 @@ namespace FLUNDLocking
 
             BigInteger currentTimestamp = GetCurrentTimeStamp();
             SecondUserLockingStorage.Put(fromAddress, secondAddress, currentTimestamp, FLUNDPrice);            
-
+            
         }
 
         // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
