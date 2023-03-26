@@ -162,9 +162,9 @@ namespace FLUNDLocking
             }
 
             // Calculate the profit amount of FLM after converting FLUND to FLM.
-            BigInteger lockingProfitFLMAmount = GetFLMCurrentTotalAmount();
-            lockingProfitFLMAmount = totalProfitFLMAmount - totalFLMAmount;
-
+            BigInteger totalProfitFLMAmount = GetFLMCurrentTotalAmount();
+            BigInteger lockingProfitFLMAmount = totalProfitFLMAmount - totalFLMAmount;
+            lockingProfitFLMAmount = lockingProfitFLMAmount - record.FLMAmount;
             //Refund Profit FLM Amount to second user
             if(lockingProfitFLMAmount != 0) 
             {
