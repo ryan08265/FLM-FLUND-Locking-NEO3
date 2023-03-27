@@ -222,7 +222,7 @@ namespace FLUNDLocking
             }
 
             // Calculate the profit amount of FLM after converting FLUND to FLM.
-            BigInteger totalFLMAmount = GetFLMCurrentTotalAmount();
+            BigInteger totalFLMAmount = GetCurrentTotalSupply(FLMHash);
             BigInteger FLMWithdrawAmount = TotalFLMSupplyStorage.Get() - totalFLMAmount;
             BigInteger FLMLockingProfit = FLMWithdrawAmount - record.FLMAmount;
 
@@ -275,32 +275,14 @@ namespace FLUNDLocking
             return true;
         }
 
-        // Get the total FLM balance of this contract
-        public static BigInteger GetFLMCurrentTotalAmount()
+        // Get the total asset balance of the contract
+        public static BigInteger GetCurrentTotalSupply(UInt160 asset)
         {
             UInt160 selfAddress = Runtime.ExecutingScriptHash;
             var @params = new object[] { selfAddress };
-            BigInteger totalAmount = (BigInteger)Contract.Call(FLMHash, "balanceOf", CallFlags.ReadOnly, @params);
+            BigInteger totalAmount = (BigInteger)Contract.Call(asset, "balanceOf", CallFlags.ReadOnly, @params);
             return totalAmount;
         }
-
-        // Get the total FLUND balance of this contract 
-        public static BigInteger GetFLUNDCurrentTotalAmount()
-        {
-            UInt160 selfAddress = Runtime.ExecutingScriptHash;
-            var @params = new object[] { selfAddress };
-            BigInteger totalAmount = (BigInteger)Contract.Call(FLUNDHash, "balanceOf", CallFlags.ReadOnly, @params);
-            return totalAmount;
-        }
-
-        // Get the total FUSDT balance of this contract 
-        public static BigInteger GetFUSDTCurrentTotalAmount()
-        {
-            UInt160 selfAddress = Runtime.ExecutingScriptHash;
-            var @params = new object[] { selfAddress };
-            BigInteger totalAmount = (BigInteger)Contract.Call(FUSDTHash, "balanceOf", CallFlags.ReadOnly, @params);
-            return totalAmount;
-        }   
 
         // Transfer method for specified asset
         public static bool TransferAsset(BigInteger fromAddress, BigInteger toAddress, BigInteger amount, UInt160 asset)
@@ -322,48 +304,50 @@ namespace FLUNDLocking
             catch (Exception)
             {
                 ExecutionEngine.Assert(false, "Refund: transfer failed, ".ToByteArray().ToByteString());
+
             }
+
         }
 
-        // // Get the FLUND price
-        // public static BigInteger GetCurrentFLUNDPrice()
-        // {
-        //     BigInteger FLUNDPrice;
-        //     byte decimals = 8;
-        //     object[] @params = new object[]
-        //     {
-        //         FLUNDHash,
-        //         decimals
-        //     };
-
-        //     try
-        //     {
-        //         FLMPrice = (BigInteger)Contract.Call(FTokenVault, "getOnChainPrice", CallFlags.All, @params);
-        //         ExecutionEngine.Assert(result, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
-        //     }
-        //     catch (Exception)
-        //     {
-        //         ExecutionEngine.Assert(false, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
-        //     }
-        //     // var @params = new object[] {};
-        //     // FLMBalncePair = (ulong)Contract.Call(FlamingoSwapPair, "", CallFlags.ReadOnly, @params);
-        //     reutnr FLUNDPrice;
-        // }
-
-        // // Get the total profit after locking
-        // public static BigInteger GetTotalProfit(BigInteger amount, BigInteger secondPrice, BigInteger firstPrice)
-        // {
-        //     if(secondPrice <= firstPrice)
-        //         return 0;
-        //     BigInteger totalProfit = amount * (secondPrice - firstPrice);
-        //     return totalProfit;
-        // }
-
-        public static BigInteger GetLockingAmount(UInt160 fromAddress)
+        // Get the FLUND price
+        public static BigInteger GetCurrentFLUNDPrice()
         {
-            ExecutionEngine.Assert(CheckAddrValid(true, fromAddress), "GetLockingAmount: invald params");
-            return FirstUserRecord.Get(fromAddress).FLMAmount;
+            BigInteger FLUNDPrice;
+            byte decimals = 8;
+            object[] @params = new object[]
+            {
+                FLUNDHash,
+                decimals
+            };
+
+            try
+            {
+                FLMPrice = (BigInteger)Contract.Call(FTokenVault, "getOnChainPrice", CallFlags.All, @params);
+                ExecutionEngine.Assert(result, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+            }
+            catch (Exception)
+            {
+                ExecutionEngine.Assert(false, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+            }
+            // var @params = new object[] {};
+            // FLMBalncePair = (ulong)Contract.Call(FlamingoSwapPair, "", CallFlags.ReadOnly, @params);
+            reutnr FLUNDPrice;
         }
+
+        // Get the total profit after locking
+        public static BigInteger GetTotalProfit(BigInteger amount, BigInteger secondPrice, BigInteger firstPrice)
+        {
+            if(secondPrice <= firstPrice)
+                return 0;
+            BigInteger totalProfit = amount * (secondPrice - firstPrice);
+            return totalProfit;
+        }
+
+        // public static BigInteger GetLockingAmount(UInt160 fromAddress)
+        // {
+        //     ExecutionEngine.Assert(CheckAddrValid(true, fromAddress), "GetLockingAmount: invald params");
+        //     return FirstUserRecord.Get(fromAddress).FLMAmount;
+        // }
 
         private static BigInteger GetCurrentTimeStamp() 
         {
