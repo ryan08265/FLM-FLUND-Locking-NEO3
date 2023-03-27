@@ -29,6 +29,91 @@ namespace FLUNDLocking
             }
         }
 
+
+        public static class OwnerStorage
+        {
+            private static readonly byte[] ownerPrefix = new byte[] { 0x04, 0x02 };
+
+            internal static void Put(UInt160 usr)
+            {
+                StorageMap map = new(Storage.CurrentContext, ownerPrefix);
+                map.Put("owner", usr);
+            }
+
+            internal static UInt160 Get()
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, ownerPrefix);
+                byte[] v = (byte[])map.Get("owner");
+                if(v is null)
+                {
+                    return InitialOwner;
+                }
+                else if (v.Length != 20)
+                {
+                    return InitialOwner;
+                }
+                else
+                {
+                    return (UInt160)v;
+                }
+            }
+
+            internal static void Delete()
+            {
+                StorageMap map = new(Storage.CurrentContext, ownerPrefix);
+                map.Delete("owner");
+            }
+        }
+
+        public static class AuthorStorage
+        {
+            private static readonly byte[] AuthorPrefix = new byte[] { 0x04, 0x01 };
+
+            internal static void Put(UInt160 usr)
+            {
+                StorageMap map = new(Storage.CurrentContext, AuthorPrefix);
+                map.Put(usr, 1);
+            }
+
+            internal static void Delete(UInt160 usr)
+            {
+                StorageMap map = new(Storage.CurrentContext, AuthorPrefix);
+                map.Delete(usr);
+            }
+
+            internal static bool Get(UInt160 usr)
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, AuthorPrefix);
+                return (BigInteger)map.Get(usr) == 1;
+            }
+
+            internal static BigInteger Count()
+            {
+                StorageMap authorMap = new(Storage.CurrentReadOnlyContext, AuthorPrefix);
+                var iterator = authorMap.Find();
+                BigInteger count = 0;
+                while (iterator.Next())
+                {
+                    count++;
+                }
+                return count;
+            }
+
+            internal static UInt160[] Find(BigInteger count)
+            {
+                StorageMap authorMap = new(Storage.CurrentReadOnlyContext, AuthorPrefix);
+                var iterator = authorMap.Find(FindOptions.RemovePrefix | FindOptions.KeysOnly);
+                UInt160[] addrs = new UInt160[(uint)count];
+                uint i = 0;
+                while (iterator.Next())
+                {
+                    addrs[i] = (UInt160)iterator.Value;
+                    i++;
+                }
+                return addrs;
+            }
+        }
+
         // The contract storage for data of first user - User Wallet Address, FLUND/FUSDT amount, Locking Perid
         public static class FirstUserLockingStorage
         {
