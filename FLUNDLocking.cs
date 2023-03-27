@@ -98,7 +98,7 @@ namespace FLUNDLocking
 
         }
         // When Second User deposits specified amount of FUSDT, convert FLM to FLUND,  contract locking started. 
-        public static bool Locking(UInt160 fromAddress, UInt160 secondAddress, BigInteger FUSDTAmount)
+        public static bool Locking(UInt160 fromAddress, UInt160 secondAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;
             //检查是否存在reentered的情况
@@ -114,6 +114,7 @@ namespace FLUNDLocking
             SecondUserRecord lockingRecord = SecondUserLockingStorage.Get(fromAddress);
             // ExecutionEngine.Assert(lockingRecord.fromAddress == UInt160.Zero, "OnNep17Payment: Locking started already");     
             // ExecutionEngine.Assert(record.FUSDTAmount >= FUSDTAmount, "OnNep17Payment: Deposit amount is less than required amount");  
+            
             
             //Transfer the FUSDT that second user deposit to first user.
             TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FUSDTAmount, FUSDTHash);
