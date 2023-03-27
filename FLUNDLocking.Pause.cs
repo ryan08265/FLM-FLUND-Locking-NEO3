@@ -38,18 +38,18 @@ namespace FLUNDLocking
             return true;
         }
 
-        public static bool PauseStaking(UInt160 author)
+        public static bool PauseLocking(UInt160 author)
         {
-            ExecutionEngine.Assert(Runtime.CheckWitness(author), "PauseStaking: CheckWitness failed, author-".ToByteArray().Concat(author).ToByteString());
-            ExecutionEngine.Assert(IsAuthor(author), "PauseStaking: not author".ToByteArray().Concat(author).ToByteString());
+            ExecutionEngine.Assert(Runtime.CheckWitness(author), "PauseLocking: CheckWitness failed, author-".ToByteArray().Concat(author).ToByteString());
+            ExecutionEngine.Assert(IsAuthor(author), "PauseLocking: not author".ToByteArray().Concat(author).ToByteString());
             PauseStakingStorage.Put(1);
             return true;
         }
 
-        public static bool UnPauseStaking(UInt160 author)
+        public static bool UnPauseLocking(UInt160 author)
         {
-            ExecutionEngine.Assert(Runtime.CheckWitness(author), "UnPauseStaking: CheckWitness failed, author-".ToByteArray().Concat(author).ToByteString());
-            ExecutionEngine.Assert(IsAuthor(author), "UnPauseStaking: not author".ToByteArray().Concat(author).ToByteString());
+            ExecutionEngine.Assert(Runtime.CheckWitness(author), "UnPauseLocking: CheckWitness failed, author-".ToByteArray().Concat(author).ToByteString());
+            ExecutionEngine.Assert(IsAuthor(author), "UnPauseLocking: not author".ToByteArray().Concat(author).ToByteString());
             PauseStakingStorage.Put(0);
             return true;
         }

@@ -231,7 +231,7 @@ namespace FLUNDLocking
 
             internal static bool Get()
             {
-                StorageMap map = new(Storage.CurrentReadOnlyContext, PauseStakingPrefix);
+                StorageMap map = new(Storage.CurrentReadOnlyContext, PauseLockingPrefix);
                 return (BigInteger)map.Get("PauseLockingPrefix") == 1;
             }
         }
