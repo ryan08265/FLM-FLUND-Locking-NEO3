@@ -18,6 +18,7 @@ namespace FLUNDLocking
     {
         public UInt160 fromAddress;
         public UInt160 secondAddress;
+        public BigInteger FLUNDAmount
         public BigInteger lockTimeStamp;
     }
 
