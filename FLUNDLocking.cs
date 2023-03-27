@@ -50,9 +50,20 @@ namespace FLUNDLocking
         // FTokenVault Hash - To get on-chain FLUND price
         // [InitialValue("0x799bbfcbc97b5a425e14089aeb06753cb3190560", Neo.SmartContract.ContractParameterType.Hash160)]
         // private static readonly UInt160 FTokenVault = default;
-
+        /*
+            You will buy let's say 1 FLUND for 1.69 FLM and will sell later for 1.75 for example
+            But because of exit fees It's like you need to wait a least 20 days (didn't make the computation) before It's profitable to withdraw
+            Don't know if It's clear I'm Bad at English
+            Can you share what you want to do? I'm not sure It's a good plan to automate stuff for FLUND except if you are careful about timing and exit fees
+            Going in/out of FLUND can be from 0.3 to 1.5 GAS
+            You often need to someone pay those fees for you if you want to optimize
+            Feel free to ask question I already made a contract for interacting with FLUND but didn't deploy It ahah
+        */
+        /*
+            Hey! What are you trying to do? 👀 
+            Better/safest way to do It should be to check your contract FLM balance before and after calling FLUND withdraw
+        */
         // private static readonly uint startLockingTimeStamp = 1601114400;
-
         //User1 Deposit FLM and Sets Locking Period and FUSDT token to receive from User2
         public static void OnNep17Payment(UInt160 fromAddress, BigInteger FLMAmount, BigInteger FUSDTAmount, BigInteger lockTermLength)
         {
@@ -66,7 +77,7 @@ namespace FLUNDLocking
             TotalFLMSupplyStorage.Increase(FLMAmount);
         }
                
-        // If no user deposit FUSDT to locking pool, then refund the money to user1
+        // If no user deposit FUSDT to locking pool, then refund the FLM of locking pool to owner
         public static bool RefundUser(UInt160 fromAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;
