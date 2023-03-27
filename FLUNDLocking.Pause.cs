@@ -12,9 +12,9 @@ namespace FLUNDLocking
             return PauseStorage.Get();
         }
 
-        public static bool IsStakingPaused()
+        public static bool IsLockingPaused()
         {
-            return PauseStakingStorage.Get();
+            return PauseLockingStorage.Get();
         }
 
         public static bool IsRefundPaused()
@@ -42,7 +42,7 @@ namespace FLUNDLocking
         {
             ExecutionEngine.Assert(Runtime.CheckWitness(author), "PauseLocking: CheckWitness failed, author-".ToByteArray().Concat(author).ToByteString());
             ExecutionEngine.Assert(IsAuthor(author), "PauseLocking: not author".ToByteArray().Concat(author).ToByteString());
-            PauseStakingStorage.Put(1);
+            PauseLockingStorage.Put(1);
             return true;
         }
 
@@ -50,7 +50,7 @@ namespace FLUNDLocking
         {
             ExecutionEngine.Assert(Runtime.CheckWitness(author), "UnPauseLocking: CheckWitness failed, author-".ToByteArray().Concat(author).ToByteString());
             ExecutionEngine.Assert(IsAuthor(author), "UnPauseLocking: not author".ToByteArray().Concat(author).ToByteString());
-            PauseStakingStorage.Put(0);
+            PauseLockingStorage.Put(0);
             return true;
         }
 

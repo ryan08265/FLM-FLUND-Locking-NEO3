@@ -5,9 +5,9 @@ using Neo.SmartContract.Framework.Attributes;
 using Neo.SmartContract.Framework.Services;
 using System.Numerics;
 
-namespace FLMStaking
+namespace FLUNDLocking
 {
-    partial class FLMStaking
+    partial class FLUNDLocking
     {
         [InitialValue("NftS1gfUFrJ46oByhpVavEBB1ywmNUKZ5h", ContractParameterType.Hash160)]
         private static readonly UInt160 InitialOwner;

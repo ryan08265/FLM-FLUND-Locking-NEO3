@@ -231,7 +231,7 @@ namespace FLUNDLocking
         }
 
         // Transfer method for specified asset
-        public static bool TransferAsset(UInt160 fromAddress, UInt160 toAddress, BigInteger amount, UInt160 asset)
+        public static void TransferAsset(UInt160 fromAddress, UInt160 toAddress, BigInteger amount, UInt160 asset)
         {
             object[] @params = new object[]
             {
@@ -250,9 +250,7 @@ namespace FLUNDLocking
             catch (Exception)
             {
                 ExecutionEngine.Assert(false, "Refund: transfer failed, ".ToByteArray().ToByteString());
-
             }
-
         }
 
         // Get the FLUND price
