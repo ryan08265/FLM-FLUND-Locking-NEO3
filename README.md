@@ -13,7 +13,7 @@ User1 deposits some FLM to the contract.
 And user1 sets FUSDT amount and locking time period.
 
 Step2:
-User2 deposits FUSDT that amount is specified in step1
+User2 deposits FUSDT that amount is specified in step1.
 In the same transaction,
 - Transfer FUSDT to first user.
 - Convert deposited FLM to FLUND.
