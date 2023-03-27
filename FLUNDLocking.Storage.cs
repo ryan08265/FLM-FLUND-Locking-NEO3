@@ -127,24 +127,24 @@ namespace FLUNDLocking
         //     }
         // }
 
-        public static class HistoryStackProfitSumStorage
-        {
-            private static readonly byte[] HistoryUintStackProfitSumPrefix = new byte[] { 0x02, 0x01 };
+        // public static class HistoryStackProfitSumStorage
+        // {
+        //     private static readonly byte[] HistoryUintStackProfitSumPrefix = new byte[] { 0x02, 0x01 };
 
-            internal static void Put(UInt160 asset, BigInteger timestamp, BigInteger amount)
-            {
-                StorageMap map = new(Storage.CurrentContext, HistoryUintStackProfitSumPrefix);
-                byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
-                map.Put(key, amount);
-            }
+        //     internal static void Put(UInt160 asset, BigInteger timestamp, BigInteger amount)
+        //     {
+        //         StorageMap map = new(Storage.CurrentContext, HistoryUintStackProfitSumPrefix);
+        //         byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
+        //         map.Put(key, amount);
+        //     }
 
-            internal static BigInteger Get(UInt160 asset, BigInteger timestamp)
-            {
-                StorageMap map = new(Storage.CurrentReadOnlyContext, HistoryUintStackProfitSumPrefix);
-                byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
-                return (BigInteger)map.Get(key);
-            }
-        }
+        //     internal static BigInteger Get(UInt160 asset, BigInteger timestamp)
+        //     {
+        //         StorageMap map = new(Storage.CurrentReadOnlyContext, HistoryUintStackProfitSumPrefix);
+        //         byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
+        //         return (BigInteger)map.Get(key);
+        //     }
+        // }
 
         public static class TotalFLMSupplyStorage
         {
@@ -179,6 +179,22 @@ namespace FLUNDLocking
             {
                 StorageMap map = new(Storage.CurrentReadOnlyContext, CurrentLockProfitPrefix);
                 return map.Get(asset) is null ? 0 : (BigInteger)map.Get(asset);
+            }
+        }
+
+        public static class UpgradeTimeLockStorage
+        {
+            private static readonly byte[] UpgradeTimelockPrefix = new byte[] { 0x08, 0x01 };
+            internal static void Put(BigInteger timestamp)
+            {
+                StorageMap map = new(Storage.CurrentContext, UpgradeTimelockPrefix);
+                map.Put("UpgradeTimelockPrefix", timestamp);
+            }
+
+            internal static BigInteger Get()
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, UpgradeTimelockPrefix);
+                return (BigInteger)map.Get("UpgradeTimelockPrefix");
             }
         }
     }

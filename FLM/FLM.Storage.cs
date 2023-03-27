@@ -153,7 +153,7 @@ namespace flamingo_contract_staking
                     return InitialOwner;
                 }
                 else
-                {
+                { 
                     return (UInt160);
                 }
             }
