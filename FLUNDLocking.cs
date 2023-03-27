@@ -60,7 +60,7 @@ namespace FLUNDLocking
             Feel free to ask question I already made a contract for interacting with FLUND but didn't deploy It ahah
         */
         /*
-            Hey! What are you trying to do? 👀 
+            Hey! What are you trying to do? 
             Better/safest way to do It should be to check your contract FLM balance before and after calling FLUND withdraw
         */
         // private static readonly uint startLockingTimeStamp = 1601114400;
@@ -197,6 +197,12 @@ namespace FLUNDLocking
                 return false;
             }
 
+            // Before invoking withdraw of FLUND, keep the FLM balance of this contract
+            object[] @paramsFLMBalance = new object[]
+            {
+                
+            }
+
             // Convert FLUND to FLM again.
             object[] @paramsForFLMToFlund = new object[]
             {
@@ -295,6 +301,29 @@ namespace FLUNDLocking
             BigInteger totalAmount = (BigInteger)Contract.Call(FUSDTHash, "balanceOf", CallFlags.ReadOnly, @params);
             return totalAmount;
         }   
+
+        // Transfer method for specified asset
+        public static bool TransferAsset(BigInteger fromAddress, BigInteger toAddress, BigInteger amount, UInt160 asset)
+        {
+            object[] @params = new object[]
+            {
+                fromAddress,
+                toAddress,
+                amount,
+                new byte[0]
+            };
+
+            try 
+            {
+                var result = (bool)Contract.Call(asset, "transfer", CallFlags.All, @params);
+                ExecutionEngine.Assert(result, "Refund: transfer failed, ".ToByteArray().ToByteString());
+            }
+
+            catch (Exception)
+            {
+                ExecutionEngine.Assert(false, "Refund: transfer failed, ".ToByteArray().ToByteString());
+            }
+        }
 
         // // Get the FLUND price
         // public static BigInteger GetCurrentFLUNDPrice()
