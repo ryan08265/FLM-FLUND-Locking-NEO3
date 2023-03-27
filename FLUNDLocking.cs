@@ -120,12 +120,15 @@ namespace FLUNDLocking
             //Transfer the FUSDT that second user deposit to first user.
             TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FUSDTAmount, FUSDTHash);
 
+            BigInteger beforeLockingFLUNDBalance = GetCurrentTotalSupply(FLUNDHash);
             //Converting FLM to FLUND
             TransferAsset(Runtime.ExecutingScriptHash, FLUNDHash, record.FLMAmount, FLMHash);
 
+            BigInteger afterLockingFLUNDBalance = GetCurrentTotalSupply(FLUNDHash);
+            BigInteger lockingFLUNDAmount = afterLockingFLUNDBalance - beforeLockingFLUNDBalance;
             BigInteger currentTimestamp = GetCurrentTimeStamp();
             TotalFLMSupplyStorage.Reduce(record.FLMAmount);
-            SecondUserLockingStorage.Put(fromAddress, secondAddress, currentTimestamp);            
+            SecondUserLockingStorage.Put(fromAddress, secondAddress, lockingFLUNDAmount, currentTimestamp);            
             return true;
         }
 
@@ -134,6 +137,7 @@ namespace FLUNDLocking
 
         // I am going to invoke the transfer method of FLM contract for buying FLUND tokens.
         // After a while, to receive FLM, I should keep the amount of FLUND I bought?
+        // Why I am asking is that there is amount parameter in withdraw method of FLUND contract.
         public static bool Refund(UInt160 fromAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;

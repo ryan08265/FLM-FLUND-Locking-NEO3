@@ -78,7 +78,7 @@ namespace FLUNDLocking
         public static class SecondUserLockingStorage
         {
             private static readonly byte[] SecondLockingPrefix = new byte[] { 0x03,0x01};    
-            internal static void Put(UInt160 fromAddress, UInt160 secondAddress, BigInteger lockTimeStamp)
+            internal static void Put(UInt160 fromAddress, UInt160 secondAddress, BigInter FLUNDAmount, BigInteger lockTimeStamp)
             {
                 byte[] key = (byte[])fromAddress;
                 StorageMap map = new(Storage.CurrentContext, SecondLockingPrefix);
@@ -86,6 +86,7 @@ namespace FLUNDLocking
                 {
                     fromAddress = fromAddress,
                     secondAddress = secondAddress,
+                    FLUNDAmount = FLUNDAmount,
                     lockTimeStamp = lockTimeStamp
                 };
                 map.Put(key, StdLib.Serialize(record));
@@ -102,6 +103,7 @@ namespace FLUNDLocking
                     {
                         fromAddress = UInt160.Zero,
                         secondAddress = UInt160.Zero,
+                        FLUNDAmount = 0,
                         lockTimeStamp = 0
                     };
                 }

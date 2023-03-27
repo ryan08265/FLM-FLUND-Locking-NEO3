@@ -24,7 +24,7 @@ namespace FLUNDLocking
             UpgradeEnd();
         }
 
-                private static void UpgradeEnd()
+        private static void UpgradeEnd()
         {
             var t = UpgradeTimeLockStorage.Get();
             ExecutionEngine.Assert(GetCurrentTimestamp()> t && t != 0, "UpgradeEnd: timelock wrong, t-".ToByteArray().Concat(t.ToByteArray()).ToByteString());
