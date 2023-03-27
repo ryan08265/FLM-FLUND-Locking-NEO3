@@ -150,6 +150,9 @@ namespace FLUNDLocking
 
         public static class TotalFLMSupplyStorage
         {
+            private static readonly byte[] TotalSupplyPrefix = new byte[] { 0x07, 0x01 };
+            private static readonly byte[] TotalSupplyKey = "totalSupply".ToByteArray();
+
             internal static void Put(BigInteger amount)
             {
                 StorageMap balanceMap = new(Storage.CurrentContext, TotalSupplyPrefix);
@@ -197,6 +200,56 @@ namespace FLUNDLocking
             {
                 StorageMap map = new(Storage.CurrentReadOnlyContext, UpgradeTimelockPrefix);
                 return (BigInteger)map.Get("UpgradeTimelockPrefix");
+            }
+        }
+
+        public static class PauseStorage
+        {
+            private static readonly byte[] PauseStoragePrefix = new byte[] {0x09, 0x03};
+            internal static void Put(BigInteger ispause)
+            {
+                StorageMap map = new(Storage.CurrentContext, PausePrefix);
+                map.Put("PausePrefix", ispause);
+            }
+
+            internal static bool Get()
+            {
+                StorageMap authorMap = new(Storage.CurrentReadOnlyContext, PausePrefix);
+                return (BigInteger)authorMap.Get("PausePrefix") == 1;
+            }
+        }
+
+        public static class PauseLockingStorage
+        {
+            private static readonly byte[] PauseLockingPrefix = new byte[] { 0x09, 0x01 };
+
+            internal static void Put(BigInteger ispause)
+            {
+                StorageMap map = new(Storage.CurrentContext, PauseLockingPrefix);
+                map.Put("PauseLockingPrefix", ispause);
+            }
+
+            internal static bool Get()
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, PauseStakingPrefix);
+                return (BigInteger)map.Get("PauseLockingPrefix") == 1;
+            }
+        }
+
+        public static class PauseRefundStorage
+        {
+            private static readonly byte[] PauseRefundPrefix = new byte[] { 0x09, 0x02 };
+
+            internal static void Put(BigInteger ispause)
+            {
+                StorageMap map = new(Storage.CurrentContext, PauseRefundPrefix);
+                map.Put("PauseRefundPrefix", ispause);
+            }
+
+            internal static bool Get()
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, PauseRefundPrefix);
+                return (BigInteger)map.Get("PauseRefundPrefix") == 1;
             }
         }
     }

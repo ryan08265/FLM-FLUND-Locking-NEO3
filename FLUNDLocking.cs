@@ -18,7 +18,7 @@ namespace FLUNDLocking
     {
         public UInt160 fromAddress;
         public UInt160 secondAddress;
-        public BigInteger FLUNDAmount
+        public BigInteger FLUNDAmount;
         public BigInteger lockTimeStamp;
     }
 
@@ -161,7 +161,7 @@ namespace FLUNDLocking
             // Convert FLUND to FLM again.
             object[] @paramsForFLMToFlund = new object[]
             {
-                record.FLMAmount,
+                lockingRecord.FLUNDAmount,
                 Runtime.ExecutingScriptHash
             };
 
@@ -294,8 +294,6 @@ namespace FLUNDLocking
         //     ExecutionEngine.Assert(CheckAddrValid(true, fromAddress), "GetLockingAmount: invald params");
         //     return FirstUserRecord.Get(fromAddress).FLMAmount;
         // }
-
-
-
     }
+}
 
