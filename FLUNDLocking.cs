@@ -116,24 +116,7 @@ namespace FLUNDLocking
             // ExecutionEngine.Assert(record.FUSDTAmount >= FUSDTAmount, "OnNep17Payment: Deposit amount is less than required amount");  
             
             //Transfer the FUSDT that second user deposit to first user.
-            object[] @params = new object[]
-            {
-                Runtime.ExecutingScriptHash,
-                fromAddress,
-                record.FUSDTAmount,
-                new byte[0]
-            };
-
-            try
-            {
-                var result = (bool)Contract.Call(FUSDTHash, "transfer", CallFlags.All, @params);
-                ExecutionEngine.Assert(result, "Refund: FUSDT transfer failed, ".ToByteArray().ToByteString());
-            }
-
-            catch (Exception)
-            {
-                ExecutionEngine.Assert(false, "Refund: FUSDT transfer failed, ".ToByteArray().ToByteString());
-            }
+            TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FUSDTAmount, FUSDTHash);
 
             //Converting FLM to FLUND
             TransferAsset(Runtime.ExecutingScriptHash, FLUNDHash, record.FLMAmount, FLMHash);
@@ -174,7 +157,7 @@ namespace FLUNDLocking
             {
                 record.FLMAmount,
                 Runtime.ExecutingScriptHash
-            }
+            };
 
             try
             {

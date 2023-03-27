@@ -5,7 +5,7 @@ using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
 using Neo.SmartContract.Framework.Services;
 
-name FLUNDLocking
+namespace FLUNDLocking
 {
     public partial class FLUNDLocking : SmartContract
     {
