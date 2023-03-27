@@ -165,6 +165,21 @@ namespace FLUNDLocking
             internal static void Reduce(BigInteger amount) => Put(Get() - amount);
         }
 
+        public static class CurrentLockProfitStorage
+        {
+            private static readonly byte[] CurrentLockProfitPrefix = new byte[] { 0x01, 0x02 };
 
+            internal static void Put(UInt160 asset, BigInteger profit)
+            {
+                StorageMap map = new(Storage.CurrentContext, CurrentLockProfitPrefix);
+                map.Put(asset, profit);
+            }
+
+            internal static BigInteger Get(UInt160 asset)
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, CurrentLockProfitPrefix);
+                return map.Get(asset) is null ? 0 : (BigInteger)map.Get(asset);
+            }
+        }
     }
 }
