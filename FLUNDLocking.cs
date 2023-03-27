@@ -91,23 +91,7 @@ namespace FLUNDLocking
             }
             FirstUserRecord record = FirstUserLockingStorage.Get(fromAddress);
             //Refund deposited amount of FLM to first user
-            object[] @params = new object[]
-            {
-                Runtime.ExecutingScriptHash,
-                fromAddress,
-                record.FLMAmount,
-                new byte[0]
-            };
-
-            try
-            {
-                var result = (bool)Contract.Call(FLMHash, "transfer", CallFlags.All, @params);
-                ExecutionEngine.Assert(result, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
-            }
-            catch (Exception)
-            {
-                ExecutionEngine.Assert(false, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
-            }
+            TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FLMAmount, FLMHash);
             FirstUserLockingStorage.Delete(fromAddress);
             EnteredStorage.Delete(tran.Hash);
             return result;            
@@ -152,25 +136,7 @@ namespace FLUNDLocking
             }
 
             //Converting FLM to FLUND
-            
-            object[] @params = new object[]
-            {
-                Runtime.ExecutingScriptHash,
-                FLUNDHash,
-                record.FLMAmount,
-                new byte[0]
-            };
-
-            try
-            {
-                var result = (bool)Contract.Call(FLMHash, "transfer", CallFlags.All, @params);
-                ExecutionEngine.Assert(result, "Refund: Converting FLM to FLUND failed, ".ToByteArray().ToByteString());
-            }
-
-            catch (Exception)
-            {
-                ExecutionEngine.Assert(false, "Refund: Converting FLM to FLUND failed, ".ToByteArray().ToByteString());
-            }
+            TransferAsset(Runtime.ExecutingScriptHash, FLUNDHash, record.FLMAmount, FLMHash);
 
             BigInteger currentTimestamp = GetCurrentTimeStamp();
             TotalFLMSupplyStorage.Reduce(record.FLMAmount);
@@ -180,6 +146,9 @@ namespace FLUNDLocking
 
         // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
         // To calculate the increased amount of FLM, we should know the total amount before converting FLUND to FLM.
+
+        // I am going to invoke the transfer method of FLM contract for buying FLUND tokens.
+        // After a while, to receive FLM, I should keep the amount of FLUND I bought?
         public static bool Refund(UInt160 fromAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;
@@ -198,10 +167,7 @@ namespace FLUNDLocking
             }
 
             // Before invoking withdraw of FLUND, keep the FLM balance of this contract
-            object[] @paramsFLMBalance = new object[]
-            {
-                
-            }
+            BigInteger beforeWithdrowFLMBalance = GetCurrentTotalSupply(FLMHash);
 
             // Convert FLUND to FLM again.
             object[] @paramsForFLMToFlund = new object[]
@@ -222,8 +188,8 @@ namespace FLUNDLocking
             }
 
             // Calculate the profit amount of FLM after converting FLUND to FLM.
-            BigInteger totalFLMAmount = GetCurrentTotalSupply(FLMHash);
-            BigInteger FLMWithdrawAmount = TotalFLMSupplyStorage.Get() - totalFLMAmount;
+            BigInteger afterWithdrawFLMBalance = GetCurrentTotalSupply(FLMHash);
+            BigInteger FLMWithdrawAmount = afterWithdrawFLMBalance - beforeWithdrowFLMBalance;
             BigInteger FLMLockingProfit = FLMWithdrawAmount - record.FLMAmount;
 
             //Refund Profit FLM Amount to second user
@@ -275,17 +241,8 @@ namespace FLUNDLocking
             return true;
         }
 
-        // Get the total asset balance of the contract
-        public static BigInteger GetCurrentTotalSupply(UInt160 asset)
-        {
-            UInt160 selfAddress = Runtime.ExecutingScriptHash;
-            var @params = new object[] { selfAddress };
-            BigInteger totalAmount = (BigInteger)Contract.Call(asset, "balanceOf", CallFlags.ReadOnly, @params);
-            return totalAmount;
-        }
-
         // Transfer method for specified asset
-        public static bool TransferAsset(BigInteger fromAddress, BigInteger toAddress, BigInteger amount, UInt160 asset)
+        public static bool TransferAsset(UInt160 fromAddress, UInt160 toAddress, BigInteger amount, UInt160 asset)
         {
             object[] @params = new object[]
             {
@@ -349,10 +306,7 @@ namespace FLUNDLocking
         //     return FirstUserRecord.Get(fromAddress).FLMAmount;
         // }
 
-        private static BigInteger GetCurrentTimeStamp() 
-        {
-            return Runtime.Time / 1000;
-        }
+
 
     }
 
