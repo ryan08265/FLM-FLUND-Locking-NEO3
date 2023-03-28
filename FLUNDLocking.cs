@@ -132,6 +132,17 @@ namespace FLUNDLocking
             return true;
         }
 
+        /*
+            Mr.Google — Today at 6:28 AM
+            Yes, to get the FLM + yield back you then withdraw the same amount of FLUND tokens
+            FLUND tokens do not "grow", but the underlying FLM value of them does
+
+
+            Zatouroff | 🦩 — Today at 6:37 AM
+            (mind the %2 fee while selling the FLUND you've got for FLM proits) 🙂  Flamingo Finance website FLUND Sell UI includes the exit fee at bottom when you enter FLUND amount to top box. So if you've bought flund 2 days ago, you'll see that you are getting less FLM than before. It breaks even in around 20-22 days with current state.
+            But as previously stated, you are already minding that %2 fee while invoking the contract by yourself. You can use the website to check those numbers with yours. You don't need to own a balance to write numbers to SELL box to see how much FLM you are going to get.
+        */
+
         // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
         // To calculate the increased amount of FLM, we should know the total amount before converting FLUND to FLM.
 
