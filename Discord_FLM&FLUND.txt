@@ -1,0 +1,48 @@
+-----------------RoadMap------------------
+Step1:
+FirstUser
+Deposit FLM - Complete
+Set FUSDT amount - Complete
+Set Locking Time Period - Complete
+Handling exceptions for this step1
+
+
+Step2:
+Second User deposit specified FUSDT amount
+In the same transaction,
+- Transfer FUSDT to first user. - Complete
+- Convert deposited FLM to FLUND. - Complete
+- Locking FLUND started. - Complete
+Handling exceptions for this step2
+
+
+Step3:
+During the locking time, FLUND gains value over time.
+Handling exceptions for this step3
+
+
+Step4:
+Lock time ends.
+Convert FLUND to FLM again. At this time, FLM amount increases.
+Handling exceptions for this step4
+
+
+Step5:
+Refund the increased FLM amount to user2, original FLM amount to user1.
+Handling exceptions for this step5
+
+-----------------Support---------------------
+You will buy let's say 1 FLUND for 1.69 FLM and will sell later for 1.75 for example
+But because of exit fees It's like you need to wait a least 20 days (didn't make the computation) before It's profitable to withdraw
+Don't know if It's clear I'm Bad at English
+Can you share what you want to do? I'm not sure It's a good plan to automate stuff for FLUND except if you are careful about timing and exit fees
+Going in/out of FLUND can be from 0.3 to 1.5 GAS
+You often need to someone pay those fees for you if you want to optimize
+Feel free to ask question I already made a contract for interacting with FLUND but didn't deploy It ahah
+
+Hey! What are you trying to do? 
+Better/safest way to do It should be to check your contract FLM balance before and after calling FLUND withdraw
+
+Yes, to get the FLM + yield back you then withdraw the same amount of FLUND tokens
+FLUND tokens do not "grow", but the underlying FLM value of them does
+
