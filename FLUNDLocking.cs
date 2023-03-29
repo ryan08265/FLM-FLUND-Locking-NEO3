@@ -53,8 +53,7 @@ namespace FLUNDLocking
         // private static readonly UInt160 FTokenVault = default;
 
         // private static readonly uint startLockingTimeStamp = 1601114400;
-        // Step1
-        //User1 Deposit FLM and Sets Locking Period and FUSDT token to receive from User2
+        // Step1 : User1 Deposit FLM and Sets Locking Period and FUSDT token to receive from User2
         public static void OnNep17Payment(UInt160 fromAddress, BigInteger FLMAmount, BigInteger FUSDTAmount, BigInteger lockTermLength)
         {
             ExecutionEngine.Assert(CheckAddrValid(true, fromAddress), "OnNep17Payment: invald params");
@@ -86,6 +85,14 @@ namespace FLUNDLocking
             return result;            
 
         }
+        // Step2 : Second User deposit specified FUSDT amount
+        /*
+            In the same transaction,
+            - Transfer FUSDT to first user. - Complete
+            - Convert deposited FLM to FLUND. - Complete
+            - Locking FLUND started. - Complete
+        */
+        // Step3 : During the locking time, FLUND gains value over time.
         // When Second User deposits specified amount of FUSDT, convert FLM to FLUND,  contract locking started. 
         public static bool Locking(UInt160 fromAddress, UInt160 secondAddress)
         {
@@ -120,6 +127,8 @@ namespace FLUNDLocking
         }
 
 
+        // Step4 : Lock time ends. Convert FLUND to FLM again. At this time, FLM amount increases.
+        // Step5 : Refund the increased FLM amount to user2, original FLM amount to user1.
         // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
         // To calculate the increased amount of FLM, we should know the total amount before converting FLUND to FLM.
         public static bool Refund(UInt160 fromAddress)
