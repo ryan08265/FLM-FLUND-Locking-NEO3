@@ -53,6 +53,7 @@ namespace FLUNDLocking
         // private static readonly UInt160 FTokenVault = default;
 
         // private static readonly uint startLockingTimeStamp = 1601114400;
+
         // Step1 : User1 Deposit FLM and Sets Locking Period and FUSDT token to receive from User2
         public static void OnNep17Payment(UInt160 fromAddress, BigInteger FLMAmount, BigInteger FUSDTAmount, BigInteger lockTermLength)
         {
@@ -82,7 +83,7 @@ namespace FLUNDLocking
             TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FLMAmount, FLMHash);
             FirstUserLockingStorage.Delete(fromAddress);
             EnteredStorage.Delete(tran.Hash);
-            return result;            
+            return true;            
 
         }
         // Step2 : Second User deposit specified FUSDT amount
@@ -94,6 +95,7 @@ namespace FLUNDLocking
         */
         // Step3 : During the locking time, FLUND gains value over time.
         // When Second User deposits specified amount of FUSDT, convert FLM to FLUND,  contract locking started. 
+        // At this time, we should keep FLUND amount bought.
         public static bool Locking(UInt160 fromAddress, UInt160 secondAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;
@@ -111,7 +113,7 @@ namespace FLUNDLocking
             // ExecutionEngine.Assert(record.FUSDTAmount >= FUSDTAmount, "OnNep17Payment: Deposit amount is less than required amount");  
             
             
-            //Transfer the FUSDT that second user deposit to first user.
+            //Transfer the FUSDT that second user deposits to first user.
             TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FUSDTAmount, FUSDTHash);
 
             BigInteger beforeLockingFLUNDBalance = GetCurrentTotalSupply(FLUNDHash);
@@ -129,7 +131,6 @@ namespace FLUNDLocking
 
         // Step4 : Lock time ends. Convert FLUND to FLM again. At this time, FLM amount increases.
         // Step5 : Refund the increased FLM amount to user2, original FLM amount to user1.
-        // After locking is expired, refund the locking token - FLM to first user, profit FLM of locking to second user
         // To calculate the increased amount of FLM, we should know the total amount before converting FLUND to FLM.
         public static bool Refund(UInt160 fromAddress)
         {
@@ -177,45 +178,12 @@ namespace FLUNDLocking
             //Refund Profit FLM Amount to second user
             if(FLMLockingProfit > 0) 
             {
-                object[] @paramsForSecondUser = new object[]
-                {
-                    Runtime.ExecutingScriptHash,
-                    lockingRecord.secondAddress,
-                    FLMLockingProfit,
-                    new byte[0]
-                };
-
-                try
-                {
-                    var result = (bool)Contract.Call(FLMHash, "transfer", CallFlags.All, @params);
-                    ExecutionEngine.Assert(result, "Refund: Transferring profit FLM to second user failed, ".ToByteArray().ToByteString());
-                }
-                catch (Exception)
-                {
-                    ExecutionEngine.Assert(false, "Refund: Transferring profit FLM to second user failed, ".ToByteArray().ToByteString());
-                }
+                TransferAsset(Runtime.ExecutingScriptHash, lockingRecord.secondAddress, FLMLockingProfit, FLMHash);
             }
 
-            //Refund deposited amount of FLM to first user
-
-            object[] @params = new object[]
-            {
-                Runtime.ExecutingScriptHash,
-                fromAddress,
-                record.FLMAmount,
-                new byte[0]
-            };
-
-            try
-            {
-                var result = (bool)Contract.Call(FLMHash, "transfer", CallFlags.All, @params);
-                ExecutionEngine.Assert(result, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
-            }
-            catch (Exception)
-            {
-                ExecutionEngine.Assert(false, "Refund: FLM refund to first user failed, ".ToByteArray().ToByteString());
-            }
-
+            //Refund original amount of FLM to first user
+            TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FLMAmount, FLMHash);
+            
             TotalFLMSupplyStorage.Reduce(FLMWithdrawAmount);
             FirstUserLockingStorage.Delete(fromAddress);
             SecondUserLockingStorage.Delete(fromAddress);
