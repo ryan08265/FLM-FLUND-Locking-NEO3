@@ -82,7 +82,6 @@ namespace FLUNDLocking
         public static bool RefundUser(UInt160 fromAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;
-            //检查是否存在reentered的情况
             ExecutionEngine.Assert(!EnteredStorage.IsSet(tran.Hash), "Re-entered");
             EnteredStorage.Set(tran.Hash);
             if (!Runtime.CheckWitness(fromAddress))
@@ -102,7 +101,6 @@ namespace FLUNDLocking
         public static bool Locking(UInt160 fromAddress, UInt160 secondAddress)
         {
             Transaction tran = (Transaction)Runtime.ScriptContainer;
-            //检查是否存在reentered的情况
             ExecutionEngine.Assert(!EnteredStorage.IsSet(tran.Hash), "Re-entered");
             EnteredStorage.Set(tran.Hash);
             if (!Runtime.CheckWitness(fromAddress))

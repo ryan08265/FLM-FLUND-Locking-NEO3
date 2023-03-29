@@ -337,5 +337,22 @@ namespace FLUNDLocking
                 return (BigInteger)map.Get("PauseRefundPrefix") == 1;
             }
         }
+
+        public static class CurrentShareAmountStorage
+        {
+            private static readonly byte[] CurrentShareAmountPrefix = new byte[] { 0x07, 0x01 };
+
+            internal static void Put(UInt160 asset, BigInteger amount)
+            {
+                StorageMap map = new(Storage.CurrentContext, CurrentShareAmountPrefix);
+                map.Put(asset, amount);
+            }
+
+            internal static BigInteger Get(UInt160 asset)
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, CurrentShareAmountPrefix);
+                return (BigInteger)map.Get(asset);
+            }
+        }
     }
 }
