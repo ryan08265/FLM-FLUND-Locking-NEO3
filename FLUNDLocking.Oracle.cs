@@ -6,8 +6,8 @@ using System.ComponentModel;
 
 namespace FLUNDLocking
 {
+    partial class FLUNDLocking\
     {
-    partial class FLUNDLocking
         static readonly string PreData = "FLUNDPrice";
 
         public static string GetRequestData()

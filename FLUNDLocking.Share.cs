@@ -8,7 +8,7 @@ namespace FLUNDLocking
 {
     partial class FLUNDLocking
     {
-        public static bool SetCurrentShareAmount(UInt160 assetId, BigInteger amount, UInt160 adminAddress)
+        public static bool SetCurrentShareAmount(BigInteger amount, UInt160 adminAddress)
         {
             ExecutionEngine.Assert(CheckAddrValid(true, assetId, adminAddress), "SetCurrentShareAmount: invald params");
             if (IsInWhiteList(assetId) && IsAuthor(adminAddress) && Runtime.CheckWitness(adminAddress))
