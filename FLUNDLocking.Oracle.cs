@@ -2,11 +2,12 @@ using Neo.SmartContract;
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
+using System;
 using System.ComponentModel;
 
 namespace FLUNDLocking
 {
-    partial class FLUNDLocking\
+    partial class FLUNDLocking
     {
         static readonly string PreData = "FLUNDPrice";
 

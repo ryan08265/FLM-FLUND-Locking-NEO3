@@ -114,6 +114,55 @@ namespace FLUNDLocking
             }
         }
 
+        public static class AssetStorage
+        {
+            private static readonly byte[] AssetPrefix = new byte[] { 0x03, 0x02 };
+
+            internal static void Put(UInt160 asset)
+            {
+                StorageMap map = new(Storage.CurrentContext, AssetPrefix);
+                map.Put(asset, 1);
+            }
+
+            internal static void Delete(UInt160 asset)
+            {
+                StorageMap map = new(Storage.CurrentContext, AssetPrefix);
+                map.Delete(asset);
+            }
+
+            internal static bool Get(UInt160 asset)
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, AssetPrefix);
+                return (BigInteger)map.Get(asset) == 1;
+            }
+
+            internal static BigInteger Count()
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, AssetPrefix);
+                var iterator = map.Find();
+                BigInteger count = 0;
+                while (iterator.Next())
+                {
+                    count++;
+                }
+                return count;
+            }
+
+            internal static UInt160[] Find(BigInteger count)
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, AssetPrefix);
+                var iterator = map.Find(FindOptions.RemovePrefix | FindOptions.KeysOnly);
+                UInt160[] addrs = new UInt160[(uint)count];
+                uint i = 0;
+                while (iterator.Next())
+                {
+                    addrs[i] = (UInt160)iterator.Value;
+                    i++;
+                }
+                return addrs;
+            }
+        }
+
         // The contract storage for data of first user - User Wallet Address, FLUND/FUSDT amount, Locking Perid
         public static class FirstUserLockingStorage
         {
@@ -163,7 +212,7 @@ namespace FLUNDLocking
         public static class SecondUserLockingStorage
         {
             private static readonly byte[] SecondLockingPrefix = new byte[] { 0x03,0x01};    
-            internal static void Put(UInt160 fromAddress, UInt160 secondAddress, BigInter FLUNDAmount, BigInteger lockTimeStamp)
+            internal static void Put(UInt160 fromAddress, UInt160 secondAddress, BigInteger FLUNDAmount, BigInteger lockTimeStamp)
             {
                 byte[] key = (byte[])fromAddress;
                 StorageMap map = new(Storage.CurrentContext, SecondLockingPrefix);
@@ -293,13 +342,13 @@ namespace FLUNDLocking
             private static readonly byte[] PauseStoragePrefix = new byte[] {0x09, 0x03};
             internal static void Put(BigInteger ispause)
             {
-                StorageMap map = new(Storage.CurrentContext, PausePrefix);
+                StorageMap map = new(Storage.CurrentContext, PauseStoragePrefix);
                 map.Put("PausePrefix", ispause);
             }
 
             internal static bool Get()
             {
-                StorageMap authorMap = new(Storage.CurrentReadOnlyContext, PausePrefix);
+                StorageMap authorMap = new(Storage.CurrentReadOnlyContext, PauseStoragePrefix);
                 return (BigInteger)authorMap.Get("PausePrefix") == 1;
             }
         }

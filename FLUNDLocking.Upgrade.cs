@@ -3,6 +3,7 @@ using System.Numerics;
 using Neo;
 using Neo.SmartContract.Framework;
 using Neo.SmartContract.Framework.Attributes;
+using Neo.SmartContract.Framework.Native;
 using Neo.SmartContract.Framework.Services;
 
 namespace FLUNDLocking
@@ -27,7 +28,7 @@ namespace FLUNDLocking
         private static void UpgradeEnd()
         {
             var t = UpgradeTimeLockStorage.Get();
-            ExecutionEngine.Assert(GetCurrentTimestamp()> t && t != 0, "UpgradeEnd: timelock wrong, t-".ToByteArray().Concat(t.ToByteArray()).ToByteString());
+            ExecutionEngine.Assert(GetCurrentTimeStamp()> t && t != 0, "UpgradeEnd: timelock wrong, t-".ToByteArray().Concat(t.ToByteArray()).ToByteString());
             UpgradeTimeLockStorage.Put(0);
         }
     }
