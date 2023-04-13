@@ -222,7 +222,6 @@ namespace FLUNDLocking
         // Get the FLUND price
         public static BigInteger GetCurrentFLUNDPrice()
         {
-            BigInteger FLUNDPrice;
             byte decimals = 8;
             object[] @params = new object[]
             {
@@ -252,12 +251,6 @@ namespace FLUNDLocking
             BigInteger totalProfit = amount * (secondPrice - firstPrice);
             return totalProfit;
         }
-
-        // public static BigInteger GetLockingAmount(UInt160 fromAddress)
-        // {
-        //     ExecutionEngine.Assert(CheckAddrValid(true, fromAddress), "GetLockingAmount: invald params");
-        //     return FirstUserRecord.Get(fromAddress).FLMAmount;
-        // }
     }
 }
 

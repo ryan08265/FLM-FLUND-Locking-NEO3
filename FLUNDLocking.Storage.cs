@@ -252,36 +252,6 @@ namespace FLUNDLocking
             }
         }
 
-        // // The contract storage for data of FLM Amount
-        // public static class FLMAmountStorage
-        // {
-        //     private static readonly byte[] FLMAmountStoragePrefix = new byte[] { 0xb0,0x01};    
-        //     internal static void Put(BigInteger fromAddress, BigInteger previousFLMAmount, BigInteger profitFLMAmount)
-        //     {
-        //         byte[] key = (byte[])fromAddress;
-        //         StorageMap map = new(Storage.CurrentContext, FLMAmountStoragePrefix);
-        //     }
-        // }
-
-        // public static class HistoryStackProfitSumStorage
-        // {
-        //     private static readonly byte[] HistoryUintStackProfitSumPrefix = new byte[] { 0x02, 0x01 };
-
-        //     internal static void Put(UInt160 asset, BigInteger timestamp, BigInteger amount)
-        //     {
-        //         StorageMap map = new(Storage.CurrentContext, HistoryUintStackProfitSumPrefix);
-        //         byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
-        //         map.Put(key, amount);
-        //     }
-
-        //     internal static BigInteger Get(UInt160 asset, BigInteger timestamp)
-        //     {
-        //         StorageMap map = new(Storage.CurrentReadOnlyContext, HistoryUintStackProfitSumPrefix);
-        //         byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
-        //         return (BigInteger)map.Get(key);
-        //     }
-        // }
-
         public static class TotalFLMSupplyStorage
         {
             private static readonly byte[] TotalSupplyPrefix = new byte[] { 0x07, 0x01 };
@@ -401,6 +371,36 @@ namespace FLUNDLocking
             {
                 StorageMap map = new(Storage.CurrentReadOnlyContext, CurrentShareAmountPrefix);
                 return (BigInteger)map.Get(asset);
+            }
+        }
+
+        // The contract storage for data of FLM Amount
+        public static class FLMAmountStorage
+        {
+            private static readonly byte[] FLMAmountStoragePrefix = new byte[] { 0xb0,0x01};    
+            internal static void Put(BigInteger fromAddress, BigInteger previousFLMAmount, BigInteger profitFLMAmount)
+            {
+                byte[] key = (byte[])fromAddress;
+                StorageMap map = new(Storage.CurrentContext, FLMAmountStoragePrefix);
+            }
+        }
+
+        public static class HistoryStackProfitSumStorage
+        {
+            private static readonly byte[] HistoryUintStackProfitSumPrefix = new byte[] { 0x02, 0x01 };
+
+            internal static void Put(UInt160 asset, BigInteger timestamp, BigInteger amount)
+            {
+                StorageMap map = new(Storage.CurrentContext, HistoryUintStackProfitSumPrefix);
+                byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
+                map.Put(key, amount);
+            }
+
+            internal static BigInteger Get(UInt160 asset, BigInteger timestamp)
+            {
+                StorageMap map = new(Storage.CurrentReadOnlyContext, HistoryUintStackProfitSumPrefix);
+                byte[] key = ((byte[])asset).Concat(timestamp.ToByteArray());
+                return (BigInteger)map.Get(key);
             }
         }
     }
