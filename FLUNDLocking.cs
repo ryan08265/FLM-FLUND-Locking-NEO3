@@ -79,6 +79,11 @@ namespace FLUNDLocking
                 return false;
             }
             FirstUserRecord record = FirstUserLockingStorage.Get(fromAddress);
+            SecondUserRecord lockingRecord = SecondUserLockingStorage.Get(fromAddress);
+            if(lockingRecord.fromAddress != UInt160.Zero)
+            {
+
+            }
             //Refund deposited amount of FLM to first user
             TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FLMAmount, FLMHash);
             FirstUserLockingStorage.Delete(fromAddress);
