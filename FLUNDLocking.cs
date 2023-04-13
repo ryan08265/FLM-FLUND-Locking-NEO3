@@ -220,29 +220,29 @@ namespace FLUNDLocking
         }
 
         // Get the FLUND price
-        // public static BigInteger GetCurrentFLUNDPrice()
-        // {
-        //     BigInteger FLUNDPrice;
-        //     byte decimals = 8;
-        //     object[] @params = new object[]
-        //     {
-        //         FLUNDHash,
-        //         decimals
-        //     };
+        public static BigInteger GetCurrentFLUNDPrice()
+        {
+            BigInteger FLUNDPrice;
+            byte decimals = 8;
+            object[] @params = new object[]
+            {
+                FLUNDHash,
+                decimals
+            };
 
-        //     try
-        //     {
-        //         FLMPrice = (BigInteger)Contract.Call(FTokenVault, "getOnChainPrice", CallFlags.All, @params);
-        //         ExecutionEngine.Assert(result, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
-        //     }
-        //     catch (Exception)
-        //     {
-        //         ExecutionEngine.Assert(false, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
-        //     }
-        //     // var @params = new object[] {};
-        //     // FLMBalncePair = (ulong)Contract.Call(FlamingoSwapPair, "", CallFlags.ReadOnly, @params);
-        //     reutnr FLUNDPrice;
-        // }
+            try
+            {
+                FLMPrice = (BigInteger)Contract.Call(FTokenVault, "getOnChainPrice", CallFlags.All, @params);
+                ExecutionEngine.Assert(result, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+            }
+            catch (Exception)
+            {
+                ExecutionEngine.Assert(false, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+            }
+            // var @params = new object[] {};
+            // FLMBalncePair = (ulong)Contract.Call(FlamingoSwapPair, "", CallFlags.ReadOnly, @params);
+            reutnr FLUNDPrice;
+        }
 
         // Get the total profit after locking
         public static BigInteger GetTotalProfit(BigInteger amount, BigInteger secondPrice, BigInteger firstPrice)
