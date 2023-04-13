@@ -1,3 +1,15 @@
+# Pre-requisities
+1. .NET SDK 6.0 - https://dotnet.microsoft.com/en-us/download/dotnet/6.0
+  We’ll write the smart contract code using the C# programming language. The .NET SDK is required to compile the C# code.
+2. Visual Studio Code — https://code.visualstudio.com/download
+  This is a very popular code editor; the Neo Blockchain Toolkit builds on top of VS Code.
+3. Neo Blockchain Toolkit Visual Studio Code extension — https://marketplace.visualstudio.com/items?itemName=ngd-seattle.neo-blockchain-toolkit
+  This will add support to VS Code for visualizing Neo blockchains, running private blockchain instances and debugging Neo smart contracts.
+4. C# Visual Studio Code extension — https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
+  This will add support to VS Code for editing and building C# source code.
+5. Neo C# smart contract compiler — https://github.com/neo-project/neo-devpack-dotnet
+  This tool allows you to convert compiled C# code into bytecode suitable for execution by the Neo virtual machine.
+  
 # FLM-FLUND-Locking-NEO3
 This is the NEO3 smart contract for locking FLUND tokens.
 The Flamingo Flund is a DEX-Traded Fund (DTF), similar to an Exchange-Traded Fund (ETF). Investors can invest FLM into the Flund to earn FLM yield.
