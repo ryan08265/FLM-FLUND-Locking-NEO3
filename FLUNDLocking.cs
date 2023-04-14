@@ -49,8 +49,8 @@ namespace FLUNDLocking
         // private static readonly UInt160 FlamingoSwapPair = default;
 
         // FTokenVault Hash - To get on-chain FLUND price
-        [InitialValue("0x799bbfcbc97b5a425e14089aeb06753cb3190560", Neo.SmartContract.ContractParameterType.Hash160)]
-        private static readonly UInt160 FTokenVault = default;
+        // [InitialValue("0x799bbfcbc97b5a425e14089aeb06753cb3190560", Neo.SmartContract.ContractParameterType.Hash160)]
+        // private static readonly UInt160 FTokenVault = default;
 
         // private static readonly uint startLockingTimeStamp = 1601114400;
 
