@@ -82,7 +82,7 @@ namespace FLUNDLocking
             SecondUserRecord lockingRecord = SecondUserLockingStorage.Get(fromAddress);
             if(lockingRecord.fromAddress != UInt160.Zero)
             {
-
+                return false; // The meaning of lockingRecord data exists is that the locking started. So first user can't refund FLM while those are locking.
             }
             //Refund deposited amount of FLM to first user
             TransferAsset(Runtime.ExecutingScriptHash, fromAddress, record.FLMAmount, FLMHash);
