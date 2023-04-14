@@ -7,8 +7,6 @@
   This will add support to VS Code for visualizing Neo blockchains, running private blockchain instances and debugging Neo smart contracts.
 4. C# Visual Studio Code extension — https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
   This will add support to VS Code for editing and building C# source code.
-5. Neo C# smart contract compiler — https://github.com/neo-project/neo-devpack-dotnet
-  This tool allows you to convert compiled C# code into bytecode suitable for execution by the Neo virtual machine.
   
 # Create a private blockchain
 The first thing we will do is use Neo Express to create a private blockchain. This will allow us to deploy and invoke our contract while we are developing it without spending any real GAS.
