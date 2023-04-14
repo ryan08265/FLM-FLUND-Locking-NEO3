@@ -211,7 +211,7 @@ namespace FLUNDLocking
         // The contract storage for data of second user - Second User Wallet Address, LockingTimeStamp
         public static class SecondUserLockingStorage
         {
-            private static readonly byte[] SecondLockingPrefix = new byte[] { 0x03,0x01};    
+            private static readonly byte[] SecondLockingPrefix = new byte[] { 0xa0,0x02};    
             internal static void Put(UInt160 fromAddress, UInt160 secondAddress, BigInteger FLUNDAmount, BigInteger lockTimeStamp)
             {
                 byte[] key = (byte[])fromAddress;
@@ -276,7 +276,7 @@ namespace FLUNDLocking
 
         public static class CurrentLockProfitStorage
         {
-            private static readonly byte[] CurrentLockProfitPrefix = new byte[] { 0x01, 0x02 };
+            private static readonly byte[] CurrentLockProfitPrefix = new byte[] { 0x07, 0x02 };
 
             internal static void Put(UInt160 asset, BigInteger profit)
             {
@@ -359,7 +359,7 @@ namespace FLUNDLocking
 
         public static class CurrentShareAmountStorage
         {
-            private static readonly byte[] CurrentShareAmountPrefix = new byte[] { 0x07, 0x01 };
+            private static readonly byte[] CurrentShareAmountPrefix = new byte[] { 0x07, 0x03 };
 
             internal static void Put(UInt160 asset, BigInteger amount)
             {
