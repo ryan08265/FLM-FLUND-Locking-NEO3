@@ -7,6 +7,10 @@
   This will add support to VS Code for visualizing Neo blockchains, running private blockchain instances and debugging Neo smart contracts.
 4. C# Visual Studio Code extension — https://marketplace.visualstudio.com/items?itemName=ms-dotnettools.csharp
   This will add support to VS Code for editing and building C# source code.
+5.  Running these commands on VS code terminal.
+    dotnet tool install -g neo.compiler.csharp --version 3.0.0-rc2
+    dotnet new -i Neo3.SmartContract.Templates
+
 
 After all installation, you can build this smart contract by using command-"dotnet build" on visual studio code.
 If the bulid succeed, it produces FLUNDLocking.manifest.json file and FLUNDLocking.nef file on bin/sc folder.
