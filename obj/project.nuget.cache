@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "dgSpecHash": "yZhdY7SGCKbhnf5bUdwqJyeiBZfDT9vfM6SPKHT9tXPj+XYua24sxV4gy0cHiKF4LaGyeueznVnoztAMaAftBQ==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\Admin\\Documents\\Project\\FLM-FLUND-Locking-NEO3\\FLUNDLocking.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\Admin\\.nuget\\packages\\neo.smartcontract.framework\\3.5.0\\neo.smartcontract.framework.3.5.0.nupkg.sha512",
+    "C:\\Users\\Admin\\.nuget\\packages\\neo3.compiler.csharp.dev\\3.5.0\\neo3.compiler.csharp.dev.3.5.0.nupkg.sha512"
+  ],
+  "logs": []
+}
