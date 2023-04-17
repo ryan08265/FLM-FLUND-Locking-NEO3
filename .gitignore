@@ -1,3 +1,5 @@
-bin/
-obj/
-wallets/
+N3-contract/bin/
+N3-contract/obj/
+N3-contract/wallets/
+N3-contract/UnitLockingTest/
+
