@@ -10,17 +10,9 @@
 
 After all installation, you can build this smart contract by using command-"dotnet build" on visual studio code.
 If the bulid succeed, it produces FLUNDLocking.manifest.json file and FLUNDLocking.nef file on bin/sc folder.
-You need to keep those 2 files and move to Neo-cli folder. You can check what Neo-CLI is on next content.
-
-# Contract deployment to private net (Don't use if you are not developer)
-
-Right click on registrar.neo-express in the Blockchains panel and click on the “Deploy contract” menu option. When asked which account to use, select the “owner” wallet that you created earlier. When asked which contract to deploy, select RegistrationContract.nef (this file contains the Neo Virtual Machine bytecode for your contract). You’ll see a message confirming that the deployment transaction was submitted:
-
-Deployment success message
-Shortly after you’ll see a new non-empty block appear in your Block Explorer panel. You can click on that block to see a list of transactions in the block (there will only be one). You can click on the transaction to see the details.
-You’ll notice that this transaction is somewhat larger than the transactions that we created earlier (when transferring GAS between accounts), that’s because this transaction contains the entire bytecode for your contract and all of its associated metadata! You can actually see the metadata in text format within the Block Explorer panel.
-
-Your contract has now been deployed to your own private Neo blockchain.
+You need to keep those 2 files for deploying contract. 
+There are 2 ways for deploy - by using Neo-CLI command or by using Neo https://www.neonova.space/contract
+And you move 2 files to Neo-cli folder. You can check what Neo-CLI is on next content.
 
 # Contract deployment to NEO3 test net by using NEO-CLI
 After build 
@@ -33,6 +25,12 @@ After download, staring the neo-cli.exe in neo-cli folder.
 
 In Neo-CLI, input the deploy command deploy <nefFilePath> [manifestFile] , (You need to move build nef and manifest file to this Neo-CLI directory)
 for example: deploy NEP17.nef Or deploy NEP17.nef NEP17.manifest.json
+
+# Contract deployment to NEO3 test net by using Neonova Space
+https://www.neonova.space/contract
+You can use this link for deploy Neo N3 contract.
+On "Deploy" tab,  you can select alreay build NEF file and manifest file by using 2 buttons.
+And after select the type of net and wallet on the right top corner, you can deploy the contract.
 
 # FLM-FLUND-Locking-NEO3
 This is the NEO3 smart contract for locking FLUND tokens.
