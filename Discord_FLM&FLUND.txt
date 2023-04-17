@@ -48,3 +48,13 @@ FLUND tokens do not "grow", but the underlying FLM value of them does
 
 mind the %2 fee while selling the FLUND you've got for FLM proits) 🙂  Flamingo Finance website FLUND Sell UI includes the exit fee at bottom when you enter FLUND amount to top box. So if you've bought flund 2 days ago, you'll see that you are getting less FLM than before. It breaks even in around 20-22 days with current state.
 But as previously stated, you are already minding that %2 fee while invoking the contract by yourself. You can use the website to check those numbers with yours. You don't need to own a balance to write numbers to SELL box to see how much FLM you are going to get.
+
+
+----------------------UI draft down with hand writing-------------------
+UI draft down with hand writing
+UI will be the DeFi Web app for connect wallet and do specified  transactions needed.
+1. We need functions for web3 integration such as connect Neo3 wallets - Neoline, Neon, ... and deposit, withdraw...
+2. We need the dashboard of locking pools list.
+Here, each pool shows the current info - locking started time, locking amount, ...
+3. We need the panel that user can create new locking pool - set locking period, locking amount and FUSDT award amount ... (for user1 of locking)
+4. And also show the list of locking pools that user2 can watch and take a part in one locking.
