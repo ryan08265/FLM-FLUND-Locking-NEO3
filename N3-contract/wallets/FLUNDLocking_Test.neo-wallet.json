@@ -1,0 +1,29 @@
+{
+  "name": "FLUNDLocking_Test",
+  "version": "1.0",
+  "scrypt": {
+    "n": 16384,
+    "r": 8,
+    "p": 8,
+    "size": 64
+  },
+  "accounts": [
+    {
+      "address": "NTRWhpqpyiSSjXUfSS2HLjhJFKCnK1wzU3",
+      "label": "Default account",
+      "isDefault": true,
+      "lock": false,
+      "key": "6PYX5cByXnS6MTnuwNGi4VrqgRm21XFVTuBNqCv24sWrjbosCG1zwxVSgj",
+      "contract": {
+        "script": "DCECx0vjkwwkNGHV7A7kH/Ku6xyLSXVJt3lki40/5QyJai1BVuezJw==",
+        "parameters": [
+          {
+            "name": "signature",
+            "type": "Signature"
+          }
+        ],
+        "deployed": false
+      }
+    }
+  ]
+}

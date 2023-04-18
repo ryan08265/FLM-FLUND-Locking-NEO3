@@ -1,9 +1,0 @@
-bin/
-obj/
-N3-contract/bin/
-N3-contract/obj/
-N3-contract/wallets/
-N3-contract/UnitLockingTest/
-n3-lockingdapp/node_modules
-
-
