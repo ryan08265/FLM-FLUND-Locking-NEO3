@@ -9,7 +9,8 @@ namespace FLUNDLocking
 {
     partial class FLUNDLocking
     {
-        [InitialValue("NftS1gfUFrJ46oByhpVavEBB1ywmNUKZ5h", ContractParameterType.Hash160)]
+        // Contract Scripthash on Neo3 testnet
+        [InitialValue("0x3bb3f69a0bc19ecb3269722a6f5dbd704c1f4b83", ContractParameterType.Hash160)]
         private static readonly UInt160 InitialOwner;
 
         [Safe]

@@ -29,7 +29,7 @@ namespace FLUNDLocking
             }
         }
 
-
+        // The storage for owner of contract 
         public static class OwnerStorage
         {
             private static readonly byte[] ownerPrefix = new byte[] { 0x04, 0x02 };
@@ -65,6 +65,7 @@ namespace FLUNDLocking
             }
         }
 
+        // The storage for author of this contract
         public static class AuthorStorage
         {
             private static readonly byte[] AuthorPrefix = new byte[] { 0x04, 0x01 };
@@ -114,6 +115,7 @@ namespace FLUNDLocking
             }
         }
 
+        // The storage for asset that will be added in locking
         public static class AssetStorage
         {
             private static readonly byte[] AssetPrefix = new byte[] { 0x03, 0x02 };

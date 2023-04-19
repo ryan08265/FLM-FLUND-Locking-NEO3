@@ -1,5 +1,5 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./components/Layout";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import Navbar from "./components/Navbar";
 import Home from "./pages/Home";
 import Locking from "./pages/Locking";
 import Deposit from "./pages/Deposit";
@@ -7,15 +7,14 @@ import './App.scss';
 
 function App() {
   return (
-    <BrowserRouter>
+    <Router>
+      <Navbar />
       <Routes>
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Home />} />
-          <Route path="/locking" element={<Locking />} />
-          <Route path="/deposit" element={<Deposit />} />
-        </Route>
+        <Route path='/' element={<Home />} />
+        <Route path='/locking' element={<Locking />} />
+        <Route path='/deposit' element={<Deposit />} />
       </Routes>
-    </BrowserRouter>
+    </Router>
   );
 }
 export default App;
