@@ -1,9 +1,9 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
-import Layout from "./pages/Layout";
+import Layout from "./components/Layout";
 import Home from "./pages/Home";
 import Locking from "./pages/Locking";
 import Deposit from "./pages/Deposit";
-import './App.css';
+import './App.scss';
 
 function App() {
   return (
