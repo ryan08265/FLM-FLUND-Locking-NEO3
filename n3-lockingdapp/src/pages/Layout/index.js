@@ -1,14 +1,12 @@
 import { Link } from "react-router-dom";
-import Container from 'react-bootstrap/Container';
-import Nav from 'react-bootstrap/Nav';
-import Navbar from 'react-bootstrap/Navbar';
+import { Container, Nav, Navbar as BsNavbar} from 'react-bootstrap';
 
 function Layout() {
   return (
-    <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+    <BsNavbar collapseOnSelect expand="lg" bg="dark" variant="dark" style={{ background: "#141414", borderBottom: "1px solid #707070"}}>
       <Container>
-        <Navbar.Toggle aria-controls="responsive-navbar-nav" />
-        <Navbar.Collapse id="responsive-navbar-nav">
+        <BsNavbar.Toggle aria-controls="responsive-navbar-nav" />
+        <BsNavbar.Collapse id="responsive-navbar-nav">
           <Nav className="me-auto">
             <Nav.Link><Link to="/">Home</Link></Nav.Link>
             <Nav.Link><Link to="/locking">Locking</Link></Nav.Link>
@@ -20,9 +18,9 @@ function Layout() {
               Dank memes
             </Nav.Link>
           </Nav>
-        </Navbar.Collapse>
+        </BsNavbar.Collapse>
       </Container>
-    </Navbar>
+    </BsNavbar>
   );
 }
 
