@@ -11,8 +11,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Layout />}>
           <Route index element={<Home />} />
-          <Route path="locking" element={<Locking />} />
-          <Route path="deposit" element={<Deposit />} />
+          <Route path="/locking" element={<Locking />} />
+          <Route path="/deposit" element={<Deposit />} />
         </Route>
       </Routes>
     </BrowserRouter>
