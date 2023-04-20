@@ -17,8 +17,8 @@ const Home = () => {
                   <Card.Text>FLMAmount : {data.FLMAmount}</Card.Text>
                   <Card.Text>FUSDTAward : {data.FUSDTAward}</Card.Text>
                   <Card.Text>LockingStartTime : {data.lockingStatingTime}</Card.Text>
-                  <Card.Text>lockingFinishTime : {data.lockingFinishTime}</Card.Text>
-                  <Button bg="Success">Show more</Button>
+                  <Card.Text>LockingFinishTime : {data.lockingFinishTime}</Card.Text>
+                  <Button variant="danger">Show more</Button>
                 </Card.Body>
               </Card>
             </Col>

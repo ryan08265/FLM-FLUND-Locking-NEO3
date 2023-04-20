@@ -1,5 +1,6 @@
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
 import Home from "./pages/Home";
 import Locking from "./pages/Locking";
 import Deposit from "./pages/Deposit";
@@ -14,6 +15,7 @@ function App() {
         <Route path='/locking' element={<Locking />} />
         <Route path='/deposit' element={<Deposit />} />
       </Routes>
+      <Footer />
     </Router>
   );
 }
