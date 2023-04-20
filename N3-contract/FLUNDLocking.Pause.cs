@@ -7,10 +7,10 @@ namespace FLUNDLocking
 {
     public partial class FLUNDLocking
     {
-        public static bool IsPaused()
-        {
-            return PauseStorage.Get();
-        }
+        // public static bool IsPaused()
+        // {
+        //     return PauseStorage.Get();
+        // }
 
         public static bool IsLockingPaused()
         {
