@@ -150,7 +150,7 @@ namespace FLUNDLocking
 
             if ((currentTimestamp > lockingRecord.lockTimeStamp + record.lockTermLength) || !(lockingRecord.fromAddress.Equals(fromAddress)))
             {
-                // EnteredStorage.Delete(tran.Hash);
+                EnteredStorage.Delete(tran.Hash);
                 return false;
             }
 
@@ -219,30 +219,6 @@ namespace FLUNDLocking
             }
         }
 
-        // Get the FLUND price
-        // public static BigInteger GetCurrentFLUNDPrice()
-        // {
-        //     byte decimals = 8;
-        //     object[] @params = new object[]
-        //     {
-        //         FLUNDHash,
-        //         decimals
-        //     };
-
-        //     try
-        //     {
-        //         FLMPrice = (BigInteger)Contract.Call(FTokenVault, "getOnChainPrice", CallFlags.All, @params);
-        //         ExecutionEngine.Assert(result, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
-        //     }
-        //     catch (Exception)
-        //     {
-        //         ExecutionEngine.Assert(false, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
-        //     }
-        //     // var @params = new object[] {};
-        //     // FLMBalncePair = (ulong)Contract.Call(FlamingoSwapPair, "", CallFlags.ReadOnly, @params);
-        //     return FLUNDPrice;
-        // }
-
         // Get the total profit after locking
         public static BigInteger GetTotalProfit(BigInteger amount, BigInteger secondPrice, BigInteger firstPrice)
         {
@@ -250,6 +226,29 @@ namespace FLUNDLocking
                 return 0;
             BigInteger totalProfit = amount * (secondPrice - firstPrice);
             return totalProfit;
+        }
+
+        public static BigInteger GetCurrentFLMLimit()
+        {
+            byte decimals = 8;
+            object[] @params = new object[]
+            {
+                FLUNDHash,
+                decimals
+            };
+
+            try
+            {
+                FLMPrice = (BigInteger)Contract.Call(FTokenVault, "getOnChainPrice", CallFlags.All, @params);
+                ExecutionEngine.Assert(result, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+            }
+            catch (Exception)
+            {
+                ExecutionEngine.Assert(false, "Refund: FLUND withdraw failed, ".ToByteArray().ToByteString());
+            }
+            // var @params = new object[] {};
+            // FLMBalncePair = (ulong)Contract.Call(FlamingoSwapPair, "", CallFlags.ReadOnly, @params);
+            return FLUNDPrice;
         }
     }
 }
