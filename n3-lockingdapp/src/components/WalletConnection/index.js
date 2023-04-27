@@ -1,5 +1,17 @@
+import { withContracts } from '../generated/test';
 let neoline;
 let neolineN3;
+
+describe('Token', () => {
+    test('has name, symbol and decimals properties', async () => {
+      await withContracts(async ({ token }) => {
+        const [name, symbol, decimals] = await Promise.all([token.name(), token.symbol(), token.decimals()]);
+        expect(name).toEqual('Eon');
+        expect(symbol).toEqual('EON');
+        expect(decimals.toNumber()).toEqual(8);
+      });
+    });
+  });  
 
 function initDapi() {
     const initCommonDapi = new Promise((resolve, reject) => {
