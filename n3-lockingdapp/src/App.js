@@ -9,6 +9,17 @@ import {
   default as Neon
 } from "@cityofzion/neon-js";
 const acct = Neon.create.account("NKuyBkoGdZZSLyPbJEetheRhMjeznFZszf");
+import "../styles/globals.css";
+
+import "@rainbow-me/rainbowkit/styles.css";
+
+import {
+  apiProvider,
+  configureChains,
+  getDefaultWallets,
+  RainbowKitProvider,
+} from "@rainbow-me/rainbowkit";
+import { chain, createClient, WagmiProvider } from "wagmi";
 
 neolineN3.getProvider()
 .then(provider => {
