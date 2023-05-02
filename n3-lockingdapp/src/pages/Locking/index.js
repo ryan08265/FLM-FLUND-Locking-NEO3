@@ -3,6 +3,29 @@ import { Card, Row, Col, Button } from 'react-bootstrap';
 import Form from 'react-bootstrap/Form';
 import InputGroup from 'react-bootstrap/InputGroup';
 import { lockingData } from "./data.js";
+
+neolineN3.pickAddress()
+.then(result => {
+    const { label, address } = result;
+    console.log('label:' + label);
+    console.log('address' + address);
+})
+.catch((error) => {
+    const {type, description, data} = error;
+    switch(type) {
+        case 'NO_PROVIDER':
+            console.log('No provider available.');
+            break;
+        case 'CANCELED':
+            console.log('The user cancels, or refuses the dapps request');
+            break;
+        default:
+            // Not an expected error object.  Just write the error to the console.
+            console.error(error);
+            break;
+    }
+});
+
 const Locking = () => {
     return (
       <div className = 'lockingwrapper'>
