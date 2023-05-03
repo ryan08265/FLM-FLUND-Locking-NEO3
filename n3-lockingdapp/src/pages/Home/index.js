@@ -1,27 +1,7 @@
 import React from 'react';
 import { Card, Row, Col, Button } from 'react-bootstrap';
 import { lockingData } from "./data.js";
-neolineN3.getTransaction({
-  txid: '0xe5a5fdacad0ba4e8d34d2fa0638357adb0f05e7fc902ec150739616320870f50'
-})
-.then(result => {
-  console.log('Transaction details: ' + JSON.stringify(result));
-})
-.catch((error) => {
-  const {type, description, data} = error;
-  switch(type) {
-      case 'NO_PROVIDER':
-          console.log('No provider available.');
-          break;
-      case 'RPC_ERROR':
-          console.log('There was an error when broadcasting this transaction to the network.');
-          break;
-      default:
-          // Not an expected error object.  Just write the error to the console.
-          console.error(error);
-          break;
-  }
-});
+
 
 const Home = () => {
     return (
