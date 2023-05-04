@@ -50,7 +50,7 @@ const Locking = () => {
               aria-describedby="basic-addon2"
             />
             <InputGroup.Text id="basic-addon2">@example.com</InputGroup.Text>
-          </InputGroup>
+          </InputGroup>a
 
           <Form.Label htmlFor="basic-url">Your vanity URL</Form.Label>
           <InputGroup className="mb-3">
