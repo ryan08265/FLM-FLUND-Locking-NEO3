@@ -45,6 +45,9 @@ const Home = () => {
               <Card.Text>FUSDTAward : {info.FUSDTAward}</Card.Text>
               <Card.Text>LockingStartTime : {info.lockingStatingTime}</Card.Text>
               <Card.Text>LockingFinishTime : {info.lockingFinishTime}</Card.Text>
+              <Card.Text>LockingUser : {info.lockingUser}</Card.Text>
+              <Card.Text>AwardUser : {info.awardUser}</Card.Text>
+
             </Card.Body>
           </Modal.Body>
           <Modal.Footer>
